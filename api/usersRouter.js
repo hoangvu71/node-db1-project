@@ -27,8 +27,9 @@ router.post("/", async (req, res, next) => {
             name: req.body.name,
             budget: req.body.budget
         }
-        const newName = await db("accounts").insert(name)
-        res.json(newName)
+        const [newName] = await db("accounts").insert(name)
+        const getName = await db("accounts").where("id", newName).first()
+        res.json(getName)
     } catch(error) {
         next(error)
     }
